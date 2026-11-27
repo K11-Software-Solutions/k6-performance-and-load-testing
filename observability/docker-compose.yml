@@ -1,0 +1,33 @@
+# Optional live monitoring for k6: Prometheus receives k6 metrics by remote write, Grafana draws them.
+#   docker compose -f observability/docker-compose.yml up -d
+#   Prometheus: http://localhost:9090    Grafana: http://localhost:3030 (anonymous viewer; admin login admin / admin)
+#   Stop:       docker compose -f observability/docker-compose.yml down
+# Local learning use only. Do not expose these ports or default passwords on a shared network.
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: k11-k6-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=native-histograms
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: k11-k6-grafana
+    ports:
+      - "3030:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
