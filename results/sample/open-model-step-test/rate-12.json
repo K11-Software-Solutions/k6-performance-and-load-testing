@@ -1,0 +1,287 @@
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "TX02 Dashboard": {
+                "path": "::TX02 Dashboard",
+                "id": "ff3252966b883433f1fee154c1302ad5",
+                "groups": {},
+                "checks": {
+                    "dashboard: 200": {
+                        "path": "::TX02 Dashboard::dashboard: 200",
+                        "id": "d54fdecf09d39a1cc095fe02f2b1b26a",
+                        "passes": 556,
+                        "fails": 0,
+                        "name": "dashboard: 200"
+                    }
+                },
+                "name": "TX02 Dashboard"
+            },
+            "TX03 Claims Summary": {
+                "checks": {
+                    "claims: 200": {
+                        "name": "claims: 200",
+                        "path": "::TX03 Claims Summary::claims: 200",
+                        "id": "dcbb3e2bc53c24b3c5d0fab5f3145104",
+                        "passes": 361,
+                        "fails": 0
+                    },
+                    "claims: has totalPaid": {
+                        "name": "claims: has totalPaid",
+                        "path": "::TX03 Claims Summary::claims: has totalPaid",
+                        "id": "ad498e9a0d4ede8d13863af4a309031d",
+                        "passes": 361,
+                        "fails": 0
+                    }
+                },
+                "name": "TX03 Claims Summary",
+                "path": "::TX03 Claims Summary",
+                "id": "998a0b4d87633e19a8e6b61f87d48697",
+                "groups": {}
+            },
+            "TX04 Export Report": {
+                "name": "TX04 Export Report",
+                "path": "::TX04 Export Report",
+                "id": "1783baf7df50c6b74fc18f9cdd15e145",
+                "groups": {},
+                "checks": {
+                    "export: report 200": {
+                        "path": "::TX04 Export Report::export: report 200",
+                        "id": "462adb71077d4a39ac7289b3aab7793b",
+                        "passes": 164,
+                        "fails": 0,
+                        "name": "export: report 200"
+                    },
+                    "export: accepted 202": {
+                        "name": "export: accepted 202",
+                        "path": "::TX04 Export Report::export: accepted 202",
+                        "id": "7e8ce4bae38a5bd03d87523a958d5f9d",
+                        "passes": 164,
+                        "fails": 0
+                    },
+                    "export: CSV downloaded": {
+                        "name": "export: CSV downloaded",
+                        "path": "::TX04 Export Report::export: CSV downloaded",
+                        "id": "f490d74086942ff46fbd08227da55dbf",
+                        "passes": 164,
+                        "fails": 0
+                    }
+                }
+            }
+        },
+        "checks": {
+            "login: status is 200": {
+                "name": "login: status is 200",
+                "path": "::login: status is 200",
+                "id": "5a659045f3c683ac4dba48e2f678f54f",
+                "passes": 1081,
+                "fails": 0
+            },
+            "login: token returned": {
+                "name": "login: token returned",
+                "path": "::login: token returned",
+                "id": "dee52e7df33ca0af3bd525c23dc2284a",
+                "passes": 1081,
+                "fails": 0
+            }
+        }
+    },
+    "metrics": {
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0,
+            "max": 0,
+            "count": 2982,
+            "avg": 0,
+            "min": 0
+        },
+        "data_sent": {
+            "rate": 7621.854196299437,
+            "count": 695038
+        },
+        "http_req_waiting": {
+            "med": 53.5702,
+            "p(90)": 155.96984,
+            "p(95)": 201.74588999999997,
+            "p(99)": 328.91334900000004,
+            "max": 370.609,
+            "count": 2982,
+            "avg": 72.8481477531857,
+            "min": 8.1634
+        },
+        "checks": {
+            "passes": 3932,
+            "fails": 0,
+            "thresholds": {
+                "rate>0.99": false
+            },
+            "value": 1
+        },
+        "http_req_receiving": {
+            "p(95)": 0.821495,
+            "p(99)": 1.011018,
+            "max": 1.3431,
+            "count": 2982,
+            "avg": 0.30996368209255487,
+            "min": 0,
+            "med": 0.3851,
+            "p(90)": 0.7041700000000001
+        },
+        "tx_export_report": {
+            "med": 1845,
+            "p(90)": 1969.9000000000003,
+            "p(95)": 2018.1,
+            "p(99)": 2063.48,
+            "max": 2067,
+            "count": 164,
+            "avg": 1867.939024390244,
+            "min": 1769,
+            "thresholds": {
+                "p(95)<10000": false
+            }
+        },
+        "http_req_duration": {
+            "p(95)": 202.02688499999996,
+            "p(99)": 329.416538,
+            "max": 370.609,
+            "count": 2982,
+            "avg": 73.18044403085165,
+            "min": 8.1634,
+            "med": 53.95,
+            "p(90)": 156.30399
+        },
+        "http_req_blocked": {
+            "p(95)": 0,
+            "p(99)": 0.5580490000000004,
+            "max": 15.8736,
+            "count": 2982,
+            "avg": 0.020425989268947002,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0
+        },
+        "http_req_connecting": {
+            "max": 1.2507,
+            "count": 2982,
+            "avg": 0.010999664654594236,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.5099920000000004
+        },
+        "group_duration": {
+            "count": 1081,
+            "avg": 381.08683866790034,
+            "min": 49.7047,
+            "med": 79.0707,
+            "p(90)": 1830.9355,
+            "p(95)": 1872.0311,
+            "p(99)": 2009.76452,
+            "max": 2067.2983
+        },
+        "tx_dashboard": {
+            "p(99)": 80,
+            "max": 94,
+            "count": 556,
+            "avg": 68.56654676258992,
+            "min": 49,
+            "med": 63,
+            "p(90)": 78,
+            "p(95)": 79,
+            "thresholds": {
+                "p(95)<3000": false
+            }
+        },
+        "http_req_sending": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.5492510000000002,
+            "max": 0.9987,
+            "count": 2982,
+            "avg": 0.02233259557344064,
+            "min": 0,
+            "med": 0
+        },
+        "http_reqs": {
+            "count": 2982,
+            "rate": 32.70090155267039
+        },
+        "tx_login": {
+            "max": 89,
+            "count": 1081,
+            "avg": 48.9463459759482,
+            "min": 32,
+            "med": 49,
+            "p(90)": 58,
+            "p(95)": 60,
+            "p(99)": 65.80000000000018,
+            "thresholds": {
+                "p(95)<3000": false
+            }
+        },
+        "http_req_duration{expected_response:true}": {
+            "p(95)": 202.02688499999996,
+            "p(99)": 329.416538,
+            "max": 370.609,
+            "count": 2982,
+            "avg": 73.18044403085165,
+            "min": 8.1634,
+            "med": 53.95,
+            "p(90)": 156.30399
+        },
+        "data_received": {
+            "rate": 13968.614486180932,
+            "count": 1273800
+        },
+        "iterations": {
+            "count": 1081,
+            "rate": 11.85435096527052
+        },
+        "vus": {
+            "value": 1,
+            "min": 1,
+            "max": 9
+        },
+        "http_req_failed": {
+            "fails": 2982,
+            "passes": 0,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "iteration_duration": {
+            "med": 138.3529,
+            "p(90)": 1876.4918,
+            "p(95)": 1917.9317,
+            "p(99)": 2053.1479400000007,
+            "max": 2114.4195,
+            "count": 1081,
+            "avg": 430.0356010175767,
+            "min": 83.7741
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "tx_claims_summary": {
+            "avg": 186.81994459833794,
+            "min": 111,
+            "med": 160,
+            "p(90)": 282,
+            "p(95)": 330,
+            "p(99)": 361,
+            "max": 371,
+            "count": 361,
+            "thresholds": {
+                "p(95)<3000": false
+            }
+        }
+    }
+}

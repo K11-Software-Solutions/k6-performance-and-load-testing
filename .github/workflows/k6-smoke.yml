@@ -1,0 +1,98 @@
+name: k6 performance smoke test
+
+# Runs a short k6 smoke test against the local mock API on every push and pull request.
+# k6 exits with code 99 when a threshold fails, which fails this job: the thresholds ARE the quality gate.
+# The k6 web dashboard (HTML report) and the JSON summary are uploaded as an artifact.
+# Use "Run workflow" to change the load or to run every tutorial script.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      vus:
+        description: Virtual users
+        default: "5"
+      duration:
+        description: Test duration (k6 format, e.g. 60s, 5m)
+        default: "60s"
+      run_all:
+        description: Also run every tutorial script (01-09)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke test + HTML report
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js for the mock API
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install k6
+        uses: grafana/setup-k6-action@v1
+        with:
+          k6-version: "2.4.0"
+
+      - name: Start the mock API
+        run: |
+          nohup node mock-server/server.js > mock-server.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000/health && exit 0
+            sleep 1
+          done
+          echo "Mock API did not start"; cat mock-server.log; exit 1
+
+      - name: Run the smoke test (thresholds decide pass/fail)
+        env:
+          K6_WEB_DASHBOARD: "true"
+          K6_WEB_DASHBOARD_EXPORT: results/k6-report.html
+        run: |
+          mkdir -p results
+          k6 run \
+            -e PROFILE=smoke \
+            -e VUS=${{ github.event.inputs.vus || '5' }} \
+            -e DURATION=${{ github.event.inputs.duration || '60s' }} \
+            -e THINK_MIN=1 -e THINK_MAX=2 \
+            --summary-export results/summary.json \
+            tests/09-claims-summary-workload.js | tee results/summary.txt
+
+      - name: Add the summary to the job page
+        if: always()
+        run: |
+          {
+            echo "## k6 smoke test"
+            echo
+            echo '```'
+            if [ -f results/summary.txt ]; then sed -n '/THRESHOLDS/,$p' results/summary.txt | head -60; else echo "No summary produced."; fi
+            echo '```'
+            echo
+            echo "Download the **k6-report** artifact and open k6-report.html for the full dashboard."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run every tutorial script
+        if: github.event.inputs.run_all == 'true'
+        run: python3 scripts/run_all.py
+
+      - name: Publish the HTML report and summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-report
+          path: |
+            results/k6-report.html
+            results/summary.json
+            results/summary.txt
+            mock-server.log
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,3 @@
+# k6 pushes metrics with remote write, so Prometheus has nothing to scrape.
+global:
+  scrape_interval: 15s
